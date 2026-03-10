@@ -1,13 +1,55 @@
 # Ulaa Browser Chocolatey Package
 
-This repository contains the Chocolatey package for Ulaa Browser - a privacy-centric browser by Zoho Corporation.
+[![Chocolatey Version](https://img.shields.io/chocolatey/v/ulaa)](https://community.chocolatey.org/packages/ulaa)
+[![Chocolatey Downloads](https://img.shields.io/chocolatey/dt/ulaa)](https://community.chocolatey.org/packages/ulaa)
+
+This repository contains the Chocolatey package for [Ulaa Browser](https://ulaa.com/) - a privacy-centric browser by Zoho Corporation.
+
+## Installation
+
+Install Ulaa Browser using Chocolatey:
+
+```powershell
+choco install ulaa -y
+```
+
+## About Ulaa Browser
+
+Ulaa is a privacy-focused browser that:
+- Blocks third-party trackers and ads
+- Provides geographical data isolation
+- Offers specialized browser modes (Work, Developer, Open Season)
+- Includes built-in productivity tools
+- Maintains 24-hour security patch policy
 
 ## Automated Updates
 
-This package is automatically updated via GitHub Actions:
-- **Daily checks** for new Ulaa versions
-- **Automatic package building** and pushing to Chocolatey
-- **Manual trigger** available for immediate updates
+This package is automatically maintained via GitHub Actions:
+- **Daily checks** for new Ulaa versions at 00:30 Melbourne time
+- **Automatic package building** when new versions are detected
+- **Manual approval** required before pushing to Chocolatey
+- **Version tracking** and changelog updates
+
+## Package Maintenance
+
+### For Users
+
+**Install:**
+```powershell
+choco install ulaa -y
+```
+
+**Update:**
+```powershell
+choco upgrade ulaa -y
+```
+
+**Uninstall:**
+```powershell
+choco uninstall ulaa -y
+```
+
+### For Maintainers
 
 ## Building the Package
 
@@ -68,6 +110,20 @@ GitHub Actions automatically checks daily and updates the package when a new ver
 ## Notes
 
 - The package uses the online MSI installer from Zoho's CDN
-- Update the `iconUrl` in nuspec with actual icon location
-- Update `packageSourceUrl` with your GitHub repository URL
-- Update `owners` field with your Chocolatey username
+- Package source: https://github.com/Ssri7774/ulaa_chocolatey
+- Report issues: https://github.com/Ssri7774/ulaa_chocolatey/issues
+
+## Contributing
+
+Contributions are welcome! Please read [CONTRIBUTING.md](CONTRIBUTING.md) for guidelines.
+
+## Links
+
+- **Chocolatey Package:** https://community.chocolatey.org/packages/ulaa
+- **Ulaa Browser:** https://ulaa.com/
+- **Documentation:** https://ulaabrowser.zohodesk.com/portal/en/kb/ulaa-browser
+- **GitHub Repository:** https://github.com/Ssri7774/ulaa_chocolatey
+
+## License
+
+This Chocolatey package is maintained independently. Ulaa Browser is licensed under its own [EULA](https://ulaa.com/eula.html).
