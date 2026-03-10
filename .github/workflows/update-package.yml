@@ -25,7 +25,8 @@ jobs:
           
           if ($downloadUrl -match 'v(\d+\.\d+\.\d+)') {
             $newVersion = $matches[1]
-            $currentVersion = (Select-Xml -Path "ulaa.nuspec" -XPath "//package/metadata/version").Node.InnerText
+            [xml]$nuspec = Get-Content "ulaa.nuspec"
+            $currentVersion = $nuspec.package.metadata.version
             
             echo "new_version=$newVersion" >> $env:GITHUB_OUTPUT
             echo "current_version=$currentVersion" >> $env:GITHUB_OUTPUT
