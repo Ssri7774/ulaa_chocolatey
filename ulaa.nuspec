@@ -5,7 +5,7 @@
     <version>3.0.4</version>
     <title>Ulaa Browser</title>
     <authors>Zoho Corporation</authors>
-    <owners>WSE</owners>
+    <owners>Ssri7774</owners>
     <licenseUrl>https://ulaa.com/eula.html</licenseUrl>
     <projectUrl>https://ulaa.com/</projectUrl>
     <iconUrl>https://ulaa.com/static/images/ulaa-logo.png</iconUrl>
@@ -14,7 +14,7 @@
     <summary>Private, secure, and superfast browser with advanced privacy protection and productivity features</summary>
     <releaseNotes>https://ulaabrowser.zohodesk.com/portal/en/kb/ulaa-browser</releaseNotes>
     <tags>browser chromium privacy security ulaa zoho</tags>
-    <packageSourceUrl>https://github.com/WSE/ulaa_chocolatey</packageSourceUrl>
+    <packageSourceUrl>https://github.com/Ssri7774/ulaa_chocolatey</packageSourceUrl>
     <docsUrl>https://ulaabrowser.zohodesk.com/portal/en/kb/ulaa-browser</docsUrl>
   </metadata>
   <files>
