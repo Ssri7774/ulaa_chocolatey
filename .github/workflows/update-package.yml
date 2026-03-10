@@ -17,8 +17,11 @@ jobs:
         id: version
         shell: pwsh
         run: |
-          $url = Invoke-WebRequest -Uri "https://ulaa.com/release/win/stable/online/msi/latest?isDownload=true" -MaximumRedirection 0 -ErrorAction SilentlyContinue
-          $downloadUrl = $url.Headers.Location
+          try {
+            $url = Invoke-WebRequest -Uri "https://ulaa.com/release/win/stable/online/msi/latest?isDownload=true" -MaximumRedirection 0 -ErrorAction SilentlyContinue
+          } catch {
+            $downloadUrl = $_.Exception.Response.Headers.Location.AbsoluteUri
+          }
           
           if ($downloadUrl -match 'v(\d+\.\d+\.\d+)') {
             $newVersion = $matches[1]
@@ -30,8 +33,10 @@ jobs:
             
             if ($newVersion -ne $currentVersion) {
               echo "update_needed=true" >> $env:GITHUB_OUTPUT
+              echo "::notice::New version detected: $newVersion (current: $currentVersion)"
             } else {
               echo "update_needed=false" >> $env:GITHUB_OUTPUT
+              echo "::notice::No update needed. Current version: $currentVersion"
             }
           }
       
