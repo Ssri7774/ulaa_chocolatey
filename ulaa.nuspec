@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2015/06/nuspec.xsd">
+  <metadata>
+    <id>ulaa</id>
+    <version>3.0.4</version>
+    <title>Ulaa Browser</title>
+    <authors>Zoho Corporation</authors>
+    <owners>WSE</owners>
+    <licenseUrl>https://ulaa.com/eula.html</licenseUrl>
+    <projectUrl>https://ulaa.com/</projectUrl>
+    <iconUrl>https://ulaa.com/static/images/ulaa-logo.png</iconUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>Ulaa is a privacy-centric browser designed to protect your personal data while enhancing online productivity. Built with zero-tolerance policy towards tracking, Ulaa blocks third-party trackers, provides multi-tier ad blocking, and ensures your browsing remains private and secure. Features include specialized browser modes (Work, Developer, Open Season), smart tab management, built-in password manager, and seamless integration with productivity tools.</description>
+    <summary>Private, secure, and superfast browser with advanced privacy protection and productivity features</summary>
+    <releaseNotes>https://ulaabrowser.zohodesk.com/portal/en/kb/ulaa-browser</releaseNotes>
+    <tags>browser chromium privacy security ulaa zoho</tags>
+    <packageSourceUrl>https://github.com/WSE/ulaa_chocolatey</packageSourceUrl>
+    <docsUrl>https://ulaabrowser.zohodesk.com/portal/en/kb/ulaa-browser</docsUrl>
+  </metadata>
+  <files>
+    <file src="tools\**" target="tools" />
+  </files>
+</package>
