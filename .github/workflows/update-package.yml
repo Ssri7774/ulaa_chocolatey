@@ -1,0 +1,84 @@
+name: Update Ulaa Chocolatey Package
+
+on:
+  schedule:
+    - cron: '0 0 * * *'  # Daily at midnight UTC
+  workflow_dispatch:  # Manual trigger
+
+jobs:
+  check-and-update:
+    runs-on: windows-latest
+    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+      
+      - name: Check for new version
+        id: version
+        shell: pwsh
+        run: |
+          $url = Invoke-WebRequest -Uri "https://ulaa.com/release/win/stable/online/msi/latest?isDownload=true" -MaximumRedirection 0 -ErrorAction SilentlyContinue
+          $downloadUrl = $url.Headers.Location
+          
+          if ($downloadUrl -match 'v(\d+\.\d+\.\d+)') {
+            $newVersion = $matches[1]
+            $currentVersion = (Select-Xml -Path "ulaa.nuspec" -XPath "//package/metadata/version").Node.InnerText
+            
+            echo "new_version=$newVersion" >> $env:GITHUB_OUTPUT
+            echo "current_version=$currentVersion" >> $env:GITHUB_OUTPUT
+            echo "download_url=$downloadUrl" >> $env:GITHUB_OUTPUT
+            
+            if ($newVersion -ne $currentVersion) {
+              echo "update_needed=true" >> $env:GITHUB_OUTPUT
+            } else {
+              echo "update_needed=false" >> $env:GITHUB_OUTPUT
+            }
+          }
+      
+      - name: Download and calculate checksum
+        if: steps.version.outputs.update_needed == 'true'
+        id: checksum
+        shell: pwsh
+        run: |
+          $url = "${{ steps.version.outputs.download_url }}"
+          $file = Join-Path $env:TEMP 'ulaa-installer.msi'
+          Invoke-WebRequest -Uri $url -OutFile $file
+          $hash = (Get-FileHash $file -Algorithm SHA256).Hash
+          echo "checksum=$hash" >> $env:GITHUB_OUTPUT
+      
+      - name: Update nuspec version
+        if: steps.version.outputs.update_needed == 'true'
+        shell: pwsh
+        run: |
+          $nuspec = Get-Content "ulaa.nuspec" -Raw
+          $nuspec = $nuspec -replace '<version>.*?</version>', "<version>${{ steps.version.outputs.new_version }}</version>"
+          Set-Content "ulaa.nuspec" $nuspec
+      
+      - name: Update install script
+        if: steps.version.outputs.update_needed == 'true'
+        shell: pwsh
+        run: |
+          $script = Get-Content "tools/chocolateyinstall.ps1" -Raw
+          $script = $script -replace "v\d+\.\d+\.\d+", "v${{ steps.version.outputs.new_version }}"
+          $script = $script -replace "\`$checksum = '.*?'", "`$checksum = '${{ steps.checksum.outputs.checksum }}'"
+          Set-Content "tools/chocolateyinstall.ps1" $script
+      
+      - name: Build package
+        if: steps.version.outputs.update_needed == 'true'
+        shell: pwsh
+        run: choco pack
+      
+      - name: Push to Chocolatey
+        if: steps.version.outputs.update_needed == 'true'
+        shell: pwsh
+        run: |
+          choco push ulaa.${{ steps.version.outputs.new_version }}.nupkg --source https://push.chocolatey.org/ --api-key ${{ secrets.CHOCO_API_KEY }}
+      
+      - name: Commit changes
+        if: steps.version.outputs.update_needed == 'true'
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add ulaa.nuspec tools/chocolateyinstall.ps1
+          git commit -m "Update to version ${{ steps.version.outputs.new_version }}"
+          git push
