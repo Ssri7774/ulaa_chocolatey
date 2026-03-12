@@ -74,11 +74,20 @@ jobs:
         shell: pwsh
         run: choco pack
       
-      - name: Push to Chocolatey
+      # Temporarily disabled - waiting for 3.0.4 approval before auto-pushing
+      # - name: Push to Chocolatey
+      #   if: steps.version.outputs.update_needed == 'true'
+      #   shell: pwsh
+      #   run: |
+      #     choco push ulaa.${{ steps.version.outputs.new_version }}.nupkg --source https://push.chocolatey.org/ --api-key ${{ secrets.CHOCO_API_KEY }}
+      
+      - name: Upload package artifact
         if: steps.version.outputs.update_needed == 'true'
-        shell: pwsh
-        run: |
-          choco push ulaa.${{ steps.version.outputs.new_version }}.nupkg --source https://push.chocolatey.org/ --api-key ${{ secrets.CHOCO_API_KEY }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: chocolatey-package-v${{ steps.version.outputs.new_version }}
+          path: ulaa.${{ steps.version.outputs.new_version }}.nupkg
+          retention-days: 30
       
       - name: Commit changes
         if: steps.version.outputs.update_needed == 'true'
