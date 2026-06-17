@@ -1,7 +1,7 @@
 $ErrorActionPreference = 'Stop'
 $packageName = 'ulaa'
-$url = 'https://downloads.zohocdn.com/ulaa-browser/release/win/Ulaa-Online-Installer-v3.2.0.msi'
-$checksum = '94FAD71C10A408C8F50AD0ADA3C744C4075D6C6D1D6DB96BE8AAECF50A39F616'
+$url = 'https://downloads.zohocdn.com/ulaa-browser/release/win/Ulaa-Online-Installer-v3.2.1.msi'
+$checksum = '08E1ACAE33F9CAD5478D88B4D5E52911F46092C35B91EDE0A725A65639D2340D'
 $checksumType = 'sha256'
 
 $packageArgs = @{
@@ -15,6 +15,7 @@ $packageArgs = @{
 }
 
 Install-ChocolateyPackage @packageArgs
+
 
 
 
